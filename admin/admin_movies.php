@@ -39,13 +39,13 @@
             $genre = $foundgenre['genre_name'];
 
             echo "
-            <li>
+            <li><a href=\"admin_movie.php?id={$mid}\">
             <img src=\"../images/{$row['movies_cover']}\" alt=\"{$row['movies_title']}\">
             <h3>{$genre}</h3>
             <h2>{$row['movies_title']} ({$row['movies_year']})</h2>
             <h3>{$row['movies_runtime']} | {$row['movies_release']}</h3>
             <p>{$subStory}... <a href=\"admin_editmovie.php?id={$mid}\"><i class=\"fa fa-pencil\" aria-hidden=\"true\"></i></a></p>
-            </li>
+            </a></li>
             ";
           }
         ?>

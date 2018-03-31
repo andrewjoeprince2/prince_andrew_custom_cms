@@ -9,6 +9,15 @@
 $queryMovie = "SELECT * FROM tbl_movies WHERE movies_id = {$movieid}";
 $runMovie = mysqli_query($link, $queryMovie);
 
+
+//Link
+
+$linkstring = "SELECT * FROM tbl_movies, tbl_genre, tbl_mov_genre WHERE tbl_genre.genre_id = tbl_mov_genre.genre_id AND tbl_movies.movies_id = tbl_mov_genre.movies_id AND tbl_movies.movies_id = $movieid";
+$linkquery = mysqli_query($link, $linkstring);
+$foundgenre = mysqli_fetch_array($linkquery, MYSQLI_ASSOC);
+$genre = $foundgenre['genre_id'];
+$linkid = $foundgenre['mov_genre_id'];
+
 if(mysqli_num_rows($runMovie)){
   $foundmovie = mysqli_fetch_array($runMovie, MYSQLI_ASSOC);
 
@@ -30,13 +39,13 @@ if(isset($_POST['submit'])){
     $rmstoryline = addslashes($_POST['mstoryline']);
     $rmrelease = addslashes($_POST['mrelease']);
 
-		if (empty($rmcover['type']) || empty($rmtitle) || empty($rmgenre) || empty($rmyear) || empty($rmruntime) || empty($rmstoryline) || empty($rmrelease) ) {
+		if (empty($rmtitle) || empty($rmgenre) || empty($rmyear) || empty($rmruntime) || empty($rmstoryline) || empty($rmrelease) ) {
 			$message = "Please enter all required fields.";
 		}
 
 		else {
 
-		$result = editMovie($movieid, $rmcover, $rmtitle, $rmgenre, $rmyear, $rmruntime, $rmstoryline, $rmrelease);
+		$result = editMovie($linkid, $movieid, $rmcover, $rmtitle, $rmgenre, $rmyear, $rmruntime, $rmstoryline, $rmrelease);
 		$message = $result;
 	}
 	}
@@ -72,13 +81,12 @@ if(isset($_POST['submit'])){
     <label>Movie Genre:</label>
     <select name="mgenre">
       <option value="">Select Movie Genre</option>
-      <option value="1">Comedy</option>
-      <option value="2">Sci-Fi</option>
-      <option value="3">Horror</option>
-      <option value="4">Action</option>
-      <option value="5">Drama</option>
+      <option <?php if($genre == 1){ echo "selected"; }?> value="1">Comedy</option>
+      <option <?php if($genre == 2){ echo "selected"; }?> value="2">Sci-Fi</option>
+      <option <?php if($genre == 3){ echo "selected"; }?> value="3">Horror</option>
+      <option <?php if($genre == 4){ echo "selected"; }?> value="4">Action</option>
+      <option <?php if($genre == 5){ echo "selected"; }?> value="5">Drama</option>
     </select>
-
     <label>Movie Year</label>
     <input type="text" name="myear" value="<?php echo $myear ?>">
 

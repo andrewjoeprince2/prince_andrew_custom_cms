@@ -28,19 +28,26 @@
           $queryRecent = "SELECT * FROM tbl_movies ORDER BY movies_title asc";
           $runRecent = mysqli_query($link, $queryRecent);
 
+
           while($row = mysqli_fetch_array($runRecent)){
             $subStory = substr("{$row['movies_storyline']}", 0, 70);
             $mid = $row['movies_id'];
 
-						//Linking 
+						//Linking
+
+						$linkstring = "SELECT * FROM tbl_movies, tbl_genre, tbl_mov_genre WHERE tbl_genre.genre_id = tbl_mov_genre.genre_id AND tbl_movies.movies_id = tbl_mov_genre.movies_id AND tbl_movies.movies_id = $mid";
+						$linkquery = mysqli_query($link, $linkstring);
+						$foundgenre = mysqli_fetch_array($linkquery, MYSQLI_ASSOC);
+						$genre = $foundgenre['genre_name'];
 
             echo "
-            <li>
+            <li><a href=\"admin_movie.php?id={$mid}\">
             <img src=\"../images/{$row['movies_cover']}\" alt=\"{$row['movies_title']}\">
-            <h2>{$row['movies_title']} ({$row['movies_year']})</h2>
+						<h3>{$genre}</h3>
+						<h2>{$row['movies_title']} ({$row['movies_year']})</h2>
             <h3>{$row['movies_runtime']} | {$row['movies_release']}</h3>
             <p>{$subStory}... <a href=\"admin_editmovie.php?id={$mid}\"><i class=\"fa fa-pencil\" aria-hidden=\"true\"></i></a></p>
-            </li>
+            </a></li>
             ";
           }
         ?>

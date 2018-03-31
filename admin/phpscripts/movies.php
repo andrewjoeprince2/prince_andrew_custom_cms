@@ -53,7 +53,7 @@ function createMovie($mcover, $mtitle, $mgenre, $myear, $mruntime, $mstoryline, 
 }
 //////////////////
 
-function editMovie($movieid, $rmcover, $rmtitle, $rmgenre, $rmyear, $rmruntime, $rmstoryline, $rmrelease) {
+function editMovie($linkid, $movieid, $rmcover, $rmtitle, $rmgenre, $rmyear, $rmruntime, $rmstoryline, $rmrelease) {
 
     include('connect.php');
 
@@ -85,10 +85,15 @@ function editMovie($movieid, $rmcover, $rmtitle, $rmgenre, $rmyear, $rmruntime, 
 
       $updateQuery = mysqli_query($link, $updateString);
 
-      if($updateQuery) {
+      //Add genre to linking table
+      $linkinsertid = mysqli_insert_id($link);
+      $linkstring = "UPDATE tbl_mov_genre SET genre_id = '$rmgenre' WHERE mov_genre_id = $linkid";
+      $linkquery = mysqli_query($link, $linkstring);
+
+      if($updateQuery && $linkquery) {
         redirect_to("admin_movies.php");
       } else {
-        echo $updateString;
+        echo $linkstring;
       }
 
       mysqli_close($link);
