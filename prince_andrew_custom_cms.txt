@@ -1,0 +1,4 @@
+Repo: https://github.com/andrewjoeprince2/prince_andrew_custom_cms
+DB: db_evilcorp
+Username: jbrunner
+Password: password

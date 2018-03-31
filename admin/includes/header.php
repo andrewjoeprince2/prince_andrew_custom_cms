@@ -22,7 +22,7 @@
           <li><a href="admin_edituser.php">Edit Profile</a></li>
 					<li><a href="admin_createuser.php">Create User</a></li>
 					<li><a href="admin_deleteuser.php">Manage Users</a></li>
-        </ul>
+        </ul></li>
 				<li><a href="phpscripts/caller.php?caller_id=logout">Sign Out</a></li>
       </li>
     </ul>
